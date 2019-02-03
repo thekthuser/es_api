@@ -1,0 +1,7 @@
+*.swo
+*.swp
+
+*.nogit
+*.log
+
+node_modules/*
