@@ -40,7 +40,6 @@ router.get('/sql', function(req, res) {
       console.log('A row has been inserted.');
     });
 
-
     db.run('DROP TABLE IF EXISTS Indices;', (err)=> {
       if (err) { console.error(err.message); res.status(500).send('500 Internal Server Error'); }
       console.log('The Indices table was dropped.');
