@@ -77,30 +77,20 @@ router.get('/sql', function(req, res) {
 })
 
 router.get('/es', function(req, res) {
-  var client = elasticsearch.Client({
+  let client = elasticsearch.Client({
     host: 'localhost:9200'
   });
 
   /*
-  client.ping({
-  // ping usually has a 3000ms timeout
-  requestTimeout: 1000
-}, function (error) {
-  if (error) {
-    console.trace('elasticsearch cluster is down!');
-  } else {
-    console.log('All is well');
-  }
-});
-*/
-
   client.indices.delete({
     index: "*"
-  }, (err, resp) => {
+  }, (err) => {
     if (err) { console.error(err.message); res.status(500).send('500 Internal Server Error'); }
     console.log("Indices deleted.");
   });
+  */
 
+  /*
   client.indices.create({
     index: "foo_index",
   }, (err, resp) => {
@@ -125,9 +115,41 @@ router.get('/es', function(req, res) {
     if (err) { console.error(err.message); res.status(500).send('500 Internal Server Error'); }
     console.log("Index created.");
   });
+  */
+  let delete_promise = client.indices.delete({
+    index: "*"
+  });
+  delete_promise.then(function(value) {
+    console.log('delete_promise ' + value);
+    client.indices.create({
+      index: "foo_index",
+    }, (err, resp) => {
+      if (err) { console.error(err.message); res.status(500).send('500 Internal Server Error'); }
+      console.log("Index created.");
+    });
+    client.indices.create({
+      index: "bar_index",
+    }, (err, resp) => {
+      if (err) { console.error(err.message); res.status(500).send('500 Internal Server Error'); }
+      console.log("Index created.");
+    });
+    client.indices.create({
+      index: "baz_index",
+    }, (err, resp) => {
+      if (err) { console.error(err.message); res.status(500).send('500 Internal Server Error'); }
+      console.log("Index created.");
+    });
+    client.indices.create({
+      index: "buzz_index",
+    }, (err, resp) => {
+      if (err) { console.error(err.message); res.status(500).send('500 Internal Server Error'); }
+      console.log("Index created.");
+    });
+  });
 
 
-  res.send('es');
+
+  res.send('Populate Elasticsearch');
 });
 
 module.exports = router;
