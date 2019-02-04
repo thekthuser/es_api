@@ -27,21 +27,38 @@ router.get('/users/:username', function(req, res) {
     console.log('Connected to the in-memory SQlite database.');
   });
   db.serialize( () => {
-    db.all('SELECT Indices.id, Indices.name, Indices.owner, Indices.description, \
-      Users.is_advanced FROM Indices LEFT JOIN Users ON Indices.owner = Users.username;', 
-      [], (err, rows) => {
+
+    let user_promise = new Promise(function(resolve, reject) {
+      db.get('SELECT * FROM Users WHERE username = ?', [username], (err, row) => {
       if (err) { console.error(err.message); res.status(500).send('500 Internal Server Error'); }
-      let indices = [];
-      rows.forEach((row) => {
-        console.log('owner: ' + row.owner + ' username: ' + username);
-        if (!row.is_advanced || (row.is_advanced && row.owner == username)) {
-          delete row.is_advanced;
-          indices.push(row);
-        }
+      resolve(row);
       });
-      res.send(indices);
     });
-    db.close();
+    user_promise.then(function(user) {
+      if (!user) {
+        console.error('User does not exist.');
+        res.status(404).send('User does not exist.');
+      }
+
+      db.all('SELECT Indices.id, Indices.name, Indices.owner, Indices.description, \
+        Users.is_advanced FROM Indices LEFT JOIN Users ON Indices.owner = Users.username;', 
+        [], (err, rows) => {
+        if (err) { console.error(err.message); res.status(500).send('500 Internal Server Error'); }
+        let indices = [];
+        rows.forEach((row) => {
+          if ((user.is_advanced && !row.is_advanced) || 
+            (user.is_advanced && (row.owner == user.username)) || 
+            (!user.is_advanced && (row.owner == user.username))) {
+            delete row.is_advanced;
+            indices.push(row);
+          }
+        });
+        res.send(indices);
+      });
+
+      db.close();
+    });
+
   });
 });
 
