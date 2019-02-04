@@ -81,73 +81,97 @@ router.get('/es', function(req, res) {
     host: 'localhost:9200'
   });
 
-  /*
-  client.indices.delete({
-    index: "*"
-  }, (err) => {
-    if (err) { console.error(err.message); res.status(500).send('500 Internal Server Error'); }
-    console.log("Indices deleted.");
-  });
-  */
-
-  /*
-  client.indices.create({
-    index: "foo_index",
-  }, (err, resp) => {
-    if (err) { console.error(err.message); res.status(500).send('500 Internal Server Error'); }
-    console.log("Index created.");
-  });
-  client.indices.create({
-    index: "bar_index",
-  }, (err, resp) => {
-    if (err) { console.error(err.message); res.status(500).send('500 Internal Server Error'); }
-    console.log("Index created.");
-  });
-  client.indices.create({
-    index: "baz_index",
-  }, (err, resp) => {
-    if (err) { console.error(err.message); res.status(500).send('500 Internal Server Error'); }
-    console.log("Index created.");
-  });
-  client.indices.create({
-    index: "buzz_index",
-  }, (err, resp) => {
-    if (err) { console.error(err.message); res.status(500).send('500 Internal Server Error'); }
-    console.log("Index created.");
-  });
-  */
   let delete_promise = client.indices.delete({
     index: "*"
   });
-  delete_promise.then(function(value) {
-    console.log('delete_promise ' + value);
-    client.indices.create({
-      index: "foo_index",
-    }, (err, resp) => {
-      if (err) { console.error(err.message); res.status(500).send('500 Internal Server Error'); }
-      console.log("Index created.");
+  delete_promise.then(function(resp) {
+    console.log('Indices deleted.');
+
+    let create_foo_promise = client.indices.create({
+      'index': 'foo_index',
     });
-    client.indices.create({
-      index: "bar_index",
-    }, (err, resp) => {
-      if (err) { console.error(err.message); res.status(500).send('500 Internal Server Error'); }
-      console.log("Index created.");
+    create_foo_promise.then(function(resp) {
+      console.log('foo_index created.');
+      client.index({
+        'index': 'foo_index',
+        'type': 'docs',
+        'body': {
+          'first_name': 'fred',
+          'last_name': 'flintstone',
+          'location': 'bedrock'
+        }
+      }, (err, resp) => {
+        if (err) { console.error(err.message); res.status(500).send('500 Internal Server Error'); }
+        console.log("Document in foo_index created.");
+      });
     });
-    client.indices.create({
-      index: "baz_index",
-    }, (err, resp) => {
-      if (err) { console.error(err.message); res.status(500).send('500 Internal Server Error'); }
-      console.log("Index created.");
+    let create_bar_promise = client.indices.create({
+      index: 'bar_index',
     });
-    client.indices.create({
-      index: "buzz_index",
-    }, (err, resp) => {
-      if (err) { console.error(err.message); res.status(500).send('500 Internal Server Error'); }
-      console.log("Index created.");
+    create_bar_promise.then(function(resp) {
+      console.log('bar_index created.');
+      client.index({
+        'index': 'bar_index',
+        'type': 'docs',
+        'body': {
+          'first_name': 'fred',
+          'last_name': 'rogers',
+          'location': 'land of make-believe'
+        }
+      }, (err, resp) => {
+        if (err) { console.error(err.message); res.status(500).send('500 Internal Server Error'); }
+        console.log("Document in bar_index created.");
+      });
+    });
+    let create_baz_promise = client.indices.create({
+      index: 'baz_index',
+    });
+    create_baz_promise.then(function(resp) {
+      console.log('baz_index created.');
+      client.index({
+        'index': 'baz_index',
+        'type': 'docs',
+        'body': {
+          'first_name': 'fred',
+          'last_name': 'flintstone',
+          'location': 'bedrock'
+        }
+      }, (err, resp) => {
+        if (err) { console.error(err.message); res.status(500).send('500 Internal Server Error'); }
+        console.log("Document in baz_index created.");
+      });
+    });
+    let create_buzz_promise = client.indices.create({
+      index: 'buzz_index',
+    });
+    create_buzz_promise.then(function(resp) {
+      console.log('buzz_index created.');
+      client.index({
+        'index': 'buzz_index',
+        'type': 'docs',
+        'body': {
+          'first_name': 'fred',
+          'last_name': 'flintstone',
+          'location': 'bedrock'
+        }
+      }, (err, resp) => {
+        if (err) { console.error(err.message); res.status(500).send('500 Internal Server Error'); }
+        console.log("Document in buzz_index created.");
+      });
+      client.index({
+        'index': 'buzz_index',
+        'type': 'docs',
+        'body': {
+          'first_name': 'fred',
+          'last_name': 'rogers',
+          'location': 'land of make-believe'
+        }
+      }, (err, resp) => {
+        if (err) { console.error(err.message); res.status(500).send('500 Internal Server Error'); }
+        console.log("Document in buzz_index created.");
+      });
     });
   });
-
-
 
   res.send('Populate Elasticsearch');
 });
