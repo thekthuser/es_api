@@ -21,7 +21,7 @@ router.get('/users', function(req, res) {
 });
 
 router.get('/users/:username', function(req, res) {
-  username = req.params.username;
+  let username = req.params.username;
   let db = new sqlite3.Database('./db/sqlite.db', (err) => {
     if (err) { console.error(err.message); res.status(500).send('500 Internal Server Error'); }
     console.log('Connected to the in-memory SQlite database.');
