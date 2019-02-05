@@ -96,25 +96,21 @@ router.get('/_search/:index', function(req, res, next) {
         }
       });
     });
-    /*
-    let test_search = client.search({
-      index: 'foo_index',
-      q: 'first_name:fred'
-    });
-    test_search.then(function(resp) {
-      console.log('AAAAAAAAAAAAAAAA');
-      console.log(resp);
-      console.log('BBBBBBBBBBBBBBB');
-      console.log(resp.hits);
-      console.log('CCCCCCCCCCCCC');
-      console.log(resp.hits.hits[0]);
-      console.log('DDDDDDDDDDDDDD');
-      console.log(resp.hits.hits[0]._source);
-    });
-    */
 
+    let query_terms = req.query.q.replace(/"/g, '')
+    query_terms = query_terms.split(':');
+    let docs_search = client.search({
+      index: index,
+      q: query_terms[0] + ':' + query_terms[1]
+    });
+    docs_search.then(function(resp) {
+      let results = {'results': []};
+      resp.hits.hits.forEach(function(person) {
+        results.results.push({'id': person._id, 'full_name': person._source.first_name + ' ' + person._source.last_name, 'location': person._source.location});
+      });
+      res.send(results);
+    });
 
-    res.send('_search');
     db.close();
   });
 });
