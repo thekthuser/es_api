@@ -62,4 +62,23 @@ router.get('/users/:username', function(req, res) {
   });
 });
 
+router.get('/_search/:index', function(req, res) {
+  let index = req.params.index;
+  let db = new sqlite3.Database('./db/sqlite.db', (err) => {
+    if (err) { console.error(err.message); res.status(500).send('500 Internal Server Error'); }
+    console.log('Connected to the in-memory SQlite database.');
+  });
+  db.serialize( () => {
+
+    // function return indices has access too, check in there
+    let index_promise = new Promise(function(resolve, reject) {
+      Response.fetch('/');
+    });
+
+
+    res.send('_search');
+    db.close();
+  });
+});
+
 module.exports = router;
