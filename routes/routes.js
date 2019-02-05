@@ -64,6 +64,7 @@ router.get('/users/:username', function(req, res) {
   });
 });
 
+//TODO remove this 'next' when 401 below is fixed
 router.get('/_search/:index', function(req, res, next) {
   let client = elasticsearch.Client({
     host: 'localhost:9200'
