@@ -75,6 +75,7 @@ router.get('/_search/:index', function(req, res, next) {
   });
   db.serialize( () => {
 
+    //TODO: check user exists
     //assume user 'foo'
     let user = 'foo';
     let index = req.params.index.toLowerCase();
@@ -89,7 +90,7 @@ router.get('/_search/:index', function(req, res, next) {
           }
         });
         if (!allowed) {
-          // this is broken, i think it's because the fetch above sends a response
+          //TODO: this is broken, i think it's because the fetch above sends a response
           console.error('Unauthorized index.'); res.status(401).send('401 Unauthorized');
           //res.send('401 Unauthorized.');
           //next('401 Unauthorized.');
