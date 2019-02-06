@@ -6,6 +6,7 @@ let routes = require('./routes/routes');
 let populate_routes = require('./routes/populate');
 
 app.listen(port, () => console.log(`Listening on port ${port}!`))
+app.set('view engine', 'ejs');
 app.use('/', routes);
 app.use('/populate', populate_routes);
 

@@ -15,6 +15,7 @@
   "author": "thekthuser",
   "license": "ISC",
   "dependencies": {
+    "ejs": "^2.6.1",
     "elasticsearch": "^15.3.1",
     "express": "^4.16.4",
     "node-fetch": "^2.3.0",
