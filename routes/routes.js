@@ -6,7 +6,8 @@ const fetch = require('node-fetch');
 const tools = require('../tools/tools');
 
 router.get('/', function(req, res) {
-  res.status(200).send('index');
+  //res.status(200).send('index');
+  res.render('index', {});
 })
 
 router.get('/users', function(req, res) {
