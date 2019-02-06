@@ -10,16 +10,10 @@ router.get('/', function(req, res) {
 })
 
 router.get('/users', function(req, res) {
-  let db = new sqlite3.Database('./db/sqlite.db', (err) => {
-    if (err) { console.error(err.message); res.status(500).send('500 Internal Server Error'); }
-    console.log('Connected to the in-memory SQlite database.');
-  });
-  db.serialize( () => {
-    db.all('SELECT * FROM Users;', [], (err, rows) => {
-      if (err) { console.error(err.message); res.status(500).send('500 Internal Server Error'); }
-      res.send(rows);
-    });
-    db.close();
+  new Promise(function(resolve, reject) {
+    resolve(tools.getAllUsers());
+  }).then(function(resp) {
+    res.send(resp);
   });
 });
 
