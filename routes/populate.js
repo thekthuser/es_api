@@ -4,7 +4,7 @@ const elasticsearch = require('elasticsearch');
 const router = express.Router();
 
 router.get('/', function(req, res) {
-  res.send("Visit '/populate/sql' to populate the Sqlite db and '/popluate/es' \
+  res.status(200).send("Visit '/populate/sql' to populate the Sqlite db and '/popluate/es' \
     to populate the ElasticSearch db.");
 })
 
@@ -73,7 +73,7 @@ router.get('/sql', function(req, res) {
 
     db.close();
   });
-  res.send("Populate SQL");
+  res.status(200).send("Populate SQL");
 })
 
 router.get('/es', function(req, res) {
@@ -173,7 +173,7 @@ router.get('/es', function(req, res) {
     });
   });
 
-  res.send('Populate Elasticsearch');
+  res.status(200).send('Populate Elasticsearch');
 });
 
 module.exports = router;

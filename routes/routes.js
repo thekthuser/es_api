@@ -6,14 +6,14 @@ const fetch = require('node-fetch');
 const tools = require('../tools/tools');
 
 router.get('/', function(req, res) {
-  res.send('index');
+  res.status(200).send('index');
 })
 
 router.get('/users', function(req, res) {
   new Promise(function(resolve, reject) {
     resolve(tools.getAllUsers());
   }).then(function(resp) {
-    res.send(resp);
+    res.status(200).send(resp);
   });
 });
 
@@ -29,7 +29,7 @@ router.get('/users/:username', function(req, res) {
     new Promise(function(resolve, reject) {
       resolve(tools.getUserIndices(user));
     }).then(function(resp) {
-      res.send(resp);
+      res.status(200).send(resp);
     });
   });
 });
