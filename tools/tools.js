@@ -38,16 +38,27 @@ module.exports = {
         console.log('Connected to the in-memory SQlite database.');
       });
       db.serialize( () => {
-
-
         db.all('SELECT * FROM Users;', [], (err, rows) => {
           if (err) { console.error(err.message); res.status(500).send('500 Internal Server Error'); }
           resolve(rows);
         });
+        db.close();
+      });
+    });
+    return resp;
+  },
 
-
-
-
+  getUser: function(username) {
+    let resp = new Promise(function(resolve, reject) {
+      let db = new sqlite3.Database('./db/sqlite.db', (err) => {
+        if (err) { console.error(err.message); res.status(500).send('500 Internal Server Error'); }
+        console.log('Connected to the in-memory SQlite database.');
+      });
+      db.serialize( () => {
+        db.get('SELECT * FROM Users WHERE username = ?', [username], (err, row) => {
+          if (err) { console.error(err.message); res.status(500).send('500 Internal Server Error'); }
+          resolve(row);
+        });
         db.close();
       });
     });

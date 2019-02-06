@@ -19,32 +19,18 @@ router.get('/users', function(req, res) {
 
 router.get('/users/:username', function(req, res) {
   let username = req.params.username.toLowerCase();
-  let db = new sqlite3.Database('./db/sqlite.db', (err) => {
-    if (err) { console.error(err.message); res.status(500).send('500 Internal Server Error'); }
-    console.log('Connected to the in-memory SQlite database.');
-  });
-  db.serialize( () => {
-
-    let user_promise = new Promise(function(resolve, reject) {
-      db.get('SELECT * FROM Users WHERE username = ?', [username], (err, row) => {
-      if (err) { console.error(err.message); res.status(500).send('500 Internal Server Error'); }
-      resolve(row);
-      });
+  new Promise(function(resolve, reject) {
+    resolve(tools.getUser(username));
+  }).then(function(user) {
+    if (!user) {
+      console.error('User does not exist.');
+      res.status(404).send('User does not exist.');
+    }
+    new Promise(function(resolve, reject) {
+      resolve(tools.getUserIndices(user));
+    }).then(function(resp) {
+      res.send(resp);
     });
-    user_promise.then(function(user) {
-      if (!user) {
-        console.error('User does not exist.');
-        res.status(404).send('User does not exist.');
-      }
-      new Promise(function(resolve, reject) {
-        resolve(tools.getUserIndices(user));
-      }).then(function(resp) {
-        console.log('got the response back!!');
-        console.log(resp);
-        res.send(resp);
-      });
-    });
-
   });
 });
 
