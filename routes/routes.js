@@ -34,56 +34,49 @@ router.get('/users/:username', function(req, res) {
   });
 });
 
-//TODO remove this 'next' when 401 below is fixed
-router.get('/_search/:index', function(req, res, next) {
+router.get('/_search/:index', function(req, res) {
   let client = elasticsearch.Client({
     host: 'localhost:9200'
   });
-  let index = req.params.index.toLowerCase();
-  let db = new sqlite3.Database('./db/sqlite.db', (err) => {
-    if (err) { console.error(err.message); res.status(500).send('500 Internal Server Error'); }
-    console.log('Connected to the in-memory SQlite database.');
-  });
-  db.serialize( () => {
+  //assume user 'foo'
+  let username = 'foo';
+  let index_name = req.params.index.toLowerCase();
 
-    //TODO: check user exists
-    //assume user 'foo'
-    let user = 'foo';
-    let index = req.params.index.toLowerCase();
-    //assume http://localhost:3000
-    let indices = fetch('http://localhost:3000/users/' + user);
-    indices.then(function (resp) {
-      resp.json().then(function(resp2) {
-        let allowed = false;
-        resp2.forEach(function(ind) {
-          if (index == ind.name) {
-            allowed = true;
-          }
-        });
-        if (!allowed) {
-          //TODO: this is broken, i think it's because the fetch above sends a response
-          console.error('Unauthorized index.'); res.status(401).send('401 Unauthorized');
-          //res.send('401 Unauthorized.');
-          //next('401 Unauthorized.');
+  new Promise(function(resolve, reject) {
+    resolve(tools.getUser(username));
+  }).then(function(user) {
+    if (!user) {
+      console.error('User does not exist.');
+      res.status(404).send('User does not exist.');
+    }
+    new Promise(function(resolve, reject) {
+      resolve(tools.getUserIndices(user));
+    }).then(function(indices) {
+      let allowed = false;
+      indices.forEach(function(ind) {
+        if (index_name == ind.name) {
+          allowed = true;
         }
       });
+      if (!allowed) {
+        console.error('Unauthorized index.'); res.status(401).send('401 Unauthorized');
+      }
     });
+  });
 
-    let query_terms = req.query.q.replace(/"/g, '')
-    query_terms = query_terms.split(':');
-    let docs_search = client.search({
-      index: index,
-      q: query_terms[0] + ':' + query_terms[1]
+  let query_terms = req.query.q.replace(/"/g, '')
+  query_terms = query_terms.split(':');
+  let docs_search = client.search({
+    index: index_name,
+    q: query_terms[0] + ':' + query_terms[1]
+  });
+  docs_search.then(function(resp) {
+    let results = {'results': []};
+    resp.hits.hits.forEach(function(person) {
+      results.results.push({'id': person._id, 'full_name': person._source.first_name + 
+        ' ' + person._source.last_name, 'location': person._source.location});
     });
-    docs_search.then(function(resp) {
-      let results = {'results': []};
-      resp.hits.hits.forEach(function(person) {
-        results.results.push({'id': person._id, 'full_name': person._source.first_name + ' ' + person._source.last_name, 'location': person._source.location});
-      });
-      res.send(results);
-    });
-
-    db.close();
+    res.status(200).send(results);
   });
 });
 
