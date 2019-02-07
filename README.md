@@ -1,7 +1,7 @@
 es_api: A short API for searching indices in Elasticsearch.
 
 
-The app can be installed by running 'npm install' inside the root directory and started by running 'npm run serve'.
+The app can be installed by running 'npm install' inside the root directory and started by running 'npm run serve'. Tests can be run with 'npm test', but require the app to be shutdown to work correctly.
 
 SQLite and Elasticsearch are required, with Elasticsearch running on localhost:9200.
 
