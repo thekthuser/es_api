@@ -73,7 +73,7 @@ router.get('/sql', function(req, res) {
 
     db.close();
   });
-  res.status(200).send("Populate SQL");
+  res.status(201).send("Populate SQL");
 })
 
 router.get('/es', function(req, res) {
@@ -173,7 +173,7 @@ router.get('/es', function(req, res) {
     });
   });
 
-  res.status(200).send('Populate Elasticsearch');
+  res.status(201).send('Populate Elasticsearch');
 });
 
 module.exports = router;
