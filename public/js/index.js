@@ -17,7 +17,7 @@ $(document).ready(function() {
     });
   }
 
-  $('#all_users').click(function() {
+  $('#user_button').click(function() {
     $.getJSON('/users', function(data) {
       $('#content').html('<pre>' + JSON.stringify(data, null, '\t') + '</pre>');
     });
