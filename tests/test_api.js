@@ -79,7 +79,7 @@ describe('GET JSON', function() {
       });
   });
 
-  it('GET bad input /users/:username', function(done) {
+  it('GET bad username /users/:username', function(done) {
     request(app)
       .get('/users/not_a_user')
       .expect(404)
@@ -108,7 +108,7 @@ describe('GET JSON', function() {
       });
   });
 
-  it('GET bad_input /_search/:index', function(done) {
+  it('GET disallowed index /_search/:index', function(done) {
     request(app)
       .get('/_search/buzz_index/?q="first_name:fred"')
       .expect(401)
@@ -119,5 +119,6 @@ describe('GET JSON', function() {
          return done();
       });
   });
+
 });
 
