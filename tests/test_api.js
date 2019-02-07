@@ -35,6 +35,12 @@ describe('GET JSON', function() {
       .put('/populate/sql')
       .expect(201)
       .end(done);
+    /*
+    request(app)
+      .put('/populate/es')
+      .expect(201)
+      .end(done);
+    */
   });
   it('GET /users', function(done) {
     request(app)
@@ -69,5 +75,24 @@ describe('GET JSON', function() {
          return done();
       });
   });
+  /*
+  it('GET /_search/:index', function(done) {
+    request(app)
+      .get('/_search/foo_index/?q="first_name:fred"')
+      .set('Accept', 'application/json')
+      .expect('Content-Type', /json/)
+      .expect(200)
+      .end((err, res) => {
+         if (err) {
+           return done(err);
+         }
+          assert(res.text.includes('full_name'));
+          assert(res.text.includes('fred flintstone'));
+          assert(res.text.includes('bedrock'));
+         return done();
+      });
+  });
+  */
 });
 
+server.close();
