@@ -56,14 +56,22 @@ $(document).ready(function() {
   });
 
   $('#populate_sql_button').click(function() {
-    $.get("/populate/sql", function(data) {
-      $('#content').html(data);
+    $.ajax({
+      url: '/populate/sql',
+      type: 'PUT',
+      success: function(data) {
+        $('#content').html(data);
+      }
     });
   });
 
   $('#populate_es_button').click(function() {
-    $.get("/populate/es", function(data) {
-      $('#content').html(data);
+    $.ajax({
+      url: '/populate/es',
+      type: 'PUT',
+      success: function(data) {
+        $('#content').html(data);
+      }
     });
   });
 

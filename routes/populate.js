@@ -8,7 +8,7 @@ router.get('/', function(req, res) {
     to populate the ElasticSearch db.");
 })
 
-router.get('/sql', function(req, res) {
+router.put('/sql', function(req, res) {
   let db = new sqlite3.Database('./db/sqlite.db', (err) => {
     if (err) { console.error(err.message); res.status(500).send('500 Internal Server Error'); }
     console.log('Connected to the in-memory SQlite database.');
@@ -76,7 +76,7 @@ router.get('/sql', function(req, res) {
   res.status(201).send("Populate SQL");
 })
 
-router.get('/es', function(req, res) {
+router.put('/es', function(req, res) {
   let client = elasticsearch.Client({
     host: 'localhost:9200'
   });
