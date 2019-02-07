@@ -1,11 +1,15 @@
 $(document).ready(function() {
 
+  function wrap_pre(str) {
+    return '<pre>' + str + '</pre';
+  }
+
   function user_indices() {
     let username = $('#user_indices_input').val();
     $.getJSON('/users/' + username, function(data) {
-      $('#content').html('<pre>' + JSON.stringify(data, null, '\t') + '</pre>');
+      $('#content').html(wrap_pre(JSON.stringify(data, null, '\t')));
     }).fail(function(a) {
-      $('#content').html('<pre>' + a.status + ': ' + a.responseText + '</pre>');
+      $('#content').html(wrap_pre(a.status + ': ' + a.responseText));
     });
   }
 
@@ -13,15 +17,15 @@ $(document).ready(function() {
     let search_index = $('#search_index_input').val();
     let search_term = $('#search_term_input').val();
     $.getJSON('/_search/' + search_index + '?q="' + search_term + '"', function(data) {
-      $('#content').html('<pre>' + JSON.stringify(data, null, '\t') + '</pre>');
+      $('#content').html(wrap_pre(JSON.stringify(data, null, '\t')));
     }).fail(function(a) {
-      $('#content').html('<pre>' + a.status + ': ' + a.responseText + '</pre>');
+      $('#content').html(wrap_pre(a.status + ': ' + a.responseText));
     });
   }
 
   $('#user_button').click(function() {
     $.getJSON('/users', function(data) {
-      $('#content').html('<pre>' + JSON.stringify(data, null, '\t') + '</pre>');
+      $('#content').html(wrap_pre(JSON.stringify(data, null, '\t')));
     });
   });
 
