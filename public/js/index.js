@@ -43,6 +43,12 @@ $(document).ready(function() {
     search();
   });
 
+  $('#search_index_input').keyup(function(e) {
+    if (e.keyCode == 13) {
+      search();
+    }
+  });
+
   $('#search_term_input').keyup(function(e) {
     if (e.keyCode == 13) {
       search();
