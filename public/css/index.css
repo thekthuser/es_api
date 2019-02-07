@@ -18,3 +18,9 @@ body {
   padding-top: 2em;
   text-align: left;
 }
+
+.small_print {
+  font-size: .8em;
+  font-weight: bold;
+  margin-top: .8em;
+}
