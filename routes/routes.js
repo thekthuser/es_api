@@ -6,15 +6,14 @@ const fetch = require('node-fetch');
 const tools = require('../tools/tools');
 
 router.get('/', function(req, res) {
-  //res.status(200).send('index');
-  res.render('index', {});
+  return res.status(200).render('index', {});
 })
 
 router.get('/users', function(req, res) {
   new Promise(function(resolve, reject) {
     resolve(tools.getAllUsers());
   }).then(function(resp) {
-    res.status(200).send(resp);
+    return res.status(200).send(resp);
   });
 });
 
@@ -25,12 +24,12 @@ router.get('/users/:username', function(req, res) {
   }).then(function(user) {
     if (!user) {
       console.error('User does not exist.');
-      res.status(404).send('User does not exist.');
+      return res.status(404).send('User does not exist.');
     }
     new Promise(function(resolve, reject) {
       resolve(tools.getUserIndices(user));
     }).then(function(resp) {
-      res.status(200).send(resp);
+      return res.status(200).send(resp);
     });
   });
 });
@@ -48,7 +47,7 @@ router.get('/_search/:index', function(req, res) {
   }).then(function(user) {
     if (!user) {
       console.error('User does not exist.');
-      res.status(404).send('User does not exist.');
+      return res.status(404).send('User does not exist.');
     }
     new Promise(function(resolve, reject) {
       resolve(tools.getUserIndices(user));
@@ -60,7 +59,7 @@ router.get('/_search/:index', function(req, res) {
         }
       });
       if (!allowed) {
-        console.error('Unauthorized index.'); res.status(401).send('401 Unauthorized');
+        console.error('Unauthorized index.'); return res.status(401).send('401 Unauthorized');
       }
     });
   });
@@ -77,7 +76,7 @@ router.get('/_search/:index', function(req, res) {
       results.results.push({'id': person._id, 'full_name': person._source.first_name + 
         ' ' + person._source.last_name, 'location': person._source.location});
     });
-    res.status(200).send(results);
+    return res.status(200).send(results);
   });
 });
 
