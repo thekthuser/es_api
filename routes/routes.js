@@ -64,7 +64,7 @@ router.get('/_search/:index', function(req, res) {
     });
   });
 
-  let query_terms = req.query.q.replace(/"/g, '')
+  let query_terms = req.query.q.replace(/"/g, '').replace(/\s/g,'');
   query_terms = query_terms.split(':');
   let docs_search = client.search({
     index: index_name,
