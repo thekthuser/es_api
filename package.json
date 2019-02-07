@@ -4,7 +4,7 @@
   "description": "A Short JS API that uses ElasticSearch.",
   "main": "app.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "node_modules/mocha/bin/mocha tests",
     "serve": "nodemon server.js"
   },
   "keywords": [
@@ -18,6 +18,7 @@
     "ejs": "^2.6.1",
     "elasticsearch": "^15.3.1",
     "express": "^4.16.4",
+    "mocha": "^5.2.0",
     "node-fetch": "^2.3.0",
     "nodemon": "^1.18.9",
     "sqlite3": "^4.0.6"
