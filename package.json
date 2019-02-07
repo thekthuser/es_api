@@ -4,7 +4,7 @@
   "description": "A Short JS API that uses ElasticSearch.",
   "main": "app.js",
   "scripts": {
-    "test": "node_modules/mocha/bin/mocha tests",
+    "test": "node_modules/mocha/bin/mocha tests --exit",
     "serve": "nodemon server.js"
   },
   "keywords": [
