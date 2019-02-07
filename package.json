@@ -19,8 +19,8 @@
     "elasticsearch": "^15.3.1",
     "express": "^4.16.4",
     "mocha": "^5.2.0",
-    "node-fetch": "^2.3.0",
     "nodemon": "^1.18.9",
-    "sqlite3": "^4.0.6"
+    "sqlite3": "^4.0.6",
+    "supertest": "^3.4.2"
   }
 }
