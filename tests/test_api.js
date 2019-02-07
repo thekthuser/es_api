@@ -31,17 +31,19 @@ describe('GET /', function() {
 
 describe('GET JSON', function() {
   beforeEach(function(done) {
-    request(app)
-      .put('/populate/sql')
-      .expect(201)
-      .end(done);
-    /*
-    request(app)
-      .put('/populate/es')
-      .expect(201)
-      .end(done);
-    */
+    new Promise(function(resolve, reject) {
+      request(app)
+        .put('/populate/sql')
+        .expect(201);
+      request(app)
+        .put('/populate/es')
+        .expect(201)
+      resolve(done());
+    }).then(function(resp) {
+      return resp;
+    });
   });
+
   it('GET /users', function(done) {
     request(app)
       .get('/users')
@@ -59,6 +61,7 @@ describe('GET JSON', function() {
          return done();
       });
   });
+
   it('GET /users/:username', function(done) {
     request(app)
       .get('/users/foo')
@@ -75,7 +78,7 @@ describe('GET JSON', function() {
          return done();
       });
   });
-  /*
+
   it('GET /_search/:index', function(done) {
     request(app)
       .get('/_search/foo_index/?q="first_name:fred"')
@@ -92,7 +95,5 @@ describe('GET JSON', function() {
          return done();
       });
   });
-  */
 });
 
-server.close();
