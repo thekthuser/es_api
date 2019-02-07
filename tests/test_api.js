@@ -79,6 +79,18 @@ describe('GET JSON', function() {
       });
   });
 
+  it('GET bad input /users/:username', function(done) {
+    request(app)
+      .get('/users/not_a_user')
+      .expect(404)
+      .end((err, res) => {
+         if (err) {
+           return done(err);
+         }
+         return done();
+      });
+  });
+
   it('GET /_search/:index', function(done) {
     request(app)
       .get('/_search/foo_index/?q="first_name:fred"')
