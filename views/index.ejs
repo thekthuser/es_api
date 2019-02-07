@@ -1,15 +1,31 @@
 <html>
-  <head></head>
+  <head>
+    <script src="./js/jquery-3.3.1.min.js"></script>
+    <script src="./js/index.js"></script>
+  </head>
   <body>
     <div id="header">
       <b>Welcome to the es_api!</b>
     </div>
     <div id="interactive">
-      #get all users<br />
-      #get user indices<br />
-      #search as foo<br />
+      <div id="all_users">
+        Get all users
+      </div>
+      <hr />
+      <div id="user_indices">
+      Get user indices<br />
+      Enter user name: <input id="user_indices_input"></input><button id="user_indices_button">Get user indices</button>
+      </div>
+      <hr />
+      <div id="search">
+      Search as user 'foo'<br />
+      Enter search index: <input id="search_index_input"></input><br />
+      Enter search as parameter:term (Ex: first_name:fred): <input id="search_term_input"></input><button id="search_button">Search</button>
+      </div>
+      <hr />
     </div>
     <div id="content">
+      Content will display here.
     </div>
   </body>
 </html>
