@@ -107,5 +107,17 @@ describe('GET JSON', function() {
          return done();
       });
   });
+
+  it('GET bad_input /_search/:index', function(done) {
+    request(app)
+      .get('/_search/buzz_index/?q="first_name:fred"')
+      .expect(401)
+      .end((err, res) => {
+         if (err) {
+           return done(err);
+         }
+         return done();
+      });
+  });
 });
 
