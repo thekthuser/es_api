@@ -5,7 +5,7 @@ The app can be installed by running `npm install` inside the root directory and 
 
 SQLite and Elasticsearch are required, with Elasticsearch running on `localhost:9200`.
 
-The populate endpoints (`/populate/sql`, `/populate/es`) should be visited after installing and running the app. This can be done from the corresponding buttons on `/`. These will delete and repopulate the databases. Be aware `/populate/es` **will delete and replace all four indices used by this app**. Running tests will also call both populate endpoints, to the same effect.
+The populate endpoints (`/populate/sql`, `/populate/es`) should be visited after installing and running the app. This can be done from the corresponding buttons on `/`. These will delete and repopulate the databases. Be aware `/populate/es` **will delete and replace all four indices used by this app**. Running tests **will also** call both populate endpoints, to the same effect.
 
 Users all own an index that they can access. Advanced users may access their index, and others that are not owned by another advanced user.
 
