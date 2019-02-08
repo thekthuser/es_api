@@ -81,12 +81,11 @@ router.put('/es', function(req, res) {
     host: 'localhost:9200'
   });
 
-  let delete_promise = client.indices.delete({
-    index: "*"
+  let delete_foo_promise = client.indices.delete({
+    index: "foo_index"
   });
-  delete_promise.then(function(resp) {
-    console.log('Indices deleted.');
-
+  delete_foo_promise.then(function(resp) {
+    console.log('foo_index deleted.');
     let create_foo_promise = client.indices.create({
       'index': 'foo_index',
     });
@@ -105,6 +104,13 @@ router.put('/es', function(req, res) {
         console.log("Document in foo_index created.");
       });
     });
+  });
+
+  let delete_bar_promise = client.indices.delete({
+    index: "bar_index"
+  });
+  delete_bar_promise.then(function(resp) {
+    console.log('bar_index deleted.');
     let create_bar_promise = client.indices.create({
       index: 'bar_index',
     });
@@ -123,6 +129,13 @@ router.put('/es', function(req, res) {
         console.log("Document in bar_index created.");
       });
     });
+  });
+
+  let delete_baz_promise = client.indices.delete({
+    index: "baz_index"
+  });
+  delete_bar_promise.then(function(resp) {
+    console.log('baz_index deleted.');
     let create_baz_promise = client.indices.create({
       index: 'baz_index',
     });
@@ -141,6 +154,13 @@ router.put('/es', function(req, res) {
         console.log("Document in baz_index created.");
       });
     });
+  });
+
+  let delete_buzz_promise = client.indices.delete({
+    index: "buzz_index"
+  });
+  delete_bar_promise.then(function(resp) {
+    console.log('buzz_index deleted.');
     let create_buzz_promise = client.indices.create({
       index: 'buzz_index',
     });
