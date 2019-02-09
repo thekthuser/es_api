@@ -15,10 +15,10 @@ The search assumes a user 'foo' is logged in.
 
 The following indices exist in Elasticsearch:
 
-* foo_index: characters with first names start with 'f'
+* foo_index: characters whose first names start with 'f'
 * bar_index: real people
 * baz_index: fictional people
-* buzz_index: all characters, real and fictional
+* buzz_index: all people, real and fictional
 
 Each Elasticseach document is in this format:
 * _index
@@ -56,7 +56,7 @@ The following endpoints exist:
   * return 201 and delete and recreate sqlite db
   * return 500 on error
 * `/populate/es`
-  * return 201 and delete and recreate _all_ es indices
+  * return 201 and delete and recreate _all four_ es indices
   * return 500 on error
 * `/_search/<index>/q="<parameter>:<search term>"`
   * return 200 with document results
